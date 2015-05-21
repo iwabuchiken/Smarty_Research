@@ -1,0 +1,7 @@
+#*/plugins/*
+#*/sysplugins/*
+*libs/templates_c/*
+#*/libs/*
+#*.csv
+libs/templates_c/
+libs/cache/

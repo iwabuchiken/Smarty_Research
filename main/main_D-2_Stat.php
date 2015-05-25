@@ -249,13 +249,13 @@ function do_D_2_V_1_1($smarty) {
 	
 	$histo = Utils::get_Histo_stat($d1, $d2);
 	
-	printf("[%s : %d] histo =>", 
-					Utils::get_Dirname(__FILE__, CONS::$proj_Name), __LINE__);
+// 	printf("[%s : %d] histo =>", 
+// 					Utils::get_Dirname(__FILE__, CONS::$proj_Name), __LINE__);
 	
 	
-	echo "<br>"; echo "<br>";
+// 	echo "<br>"; echo "<br>";
 	
-	print_r($histo);
+// 	print_r($histo);
 
 	/*******************************
 		assigns

@@ -1,5 +1,41 @@
 //alert("main.js");
 
+//REF http://d3js.org/#properties
+function get_Color_HSL() {
+	
+	  return "hsl(" + Math.random() * 360 + ",100%,50%)";
+	  
+}
+
+function test_d3() {
+	
+//	alert("d3");
+	
+	//REF http://d3js.org/#properties
+//	d3.selectAll("p").style("color", function() {
+//		  return "hsl(" + Math.random() * 360 + ",100%,50%)";
+//	});
+	
+	d3.select("body").style("background", get_Color_HSL());
+	
+	d3.selectAll("p").style("color", function(d, i) {
+		return i % 2 ? "#fff" : "#eee";
+	});
+	
+	d3.selectAll("p")
+	    .data([4, 8, 15, 16, 23, 42])
+	    .style("font-size", function(d) { return d + "px"; });
+	
+	d3.selectAll("td")
+		.data([4, 8, 15, 16, 23, 42])
+		.style("font-size", function(d) { return d + "px"; });
+	
+	d3.select("table#histo").style("color", function() {
+		  return "hsl(" + Math.random() * 360 + ",100%,50%)";
+	});
+	
+}
+
 function message() {
 	
 	alert("message");

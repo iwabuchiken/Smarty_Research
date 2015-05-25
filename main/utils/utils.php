@@ -2355,7 +2355,82 @@
 			return $str_new;
 			
 		}//perm($target, $before, $after)
-		
+
+		public static function
+		get_Histo_stat($d1, $d2) {
+			
+			$res = array();
+			// 	$res = new Array(36);
+			
+			for ($i = 0; $i < 6; $i++) {
+			
+				for ($j = 0; $j < 6; $j++) {
+						
+					array_push($res, $d1[$i] + $d2[$j]);
+					// 			array_push($res, $d1[$i]*$d2[$j]);
+						
+				}
+			}
+			
+			$len_res = count($res);
+			
+			sort($res);
+			
+			/*******************************
+			 unique
+			*******************************/
+			$res_uniq = array_values(array_unique($res));
+			
+			$len_res = count($res_uniq);
+			
+			/*******************************
+			 histo
+			*******************************/
+			$histo = array();
+			
+			// init
+			for ($i = 0; $i < $len_res; $i++) {
+			
+				$histo[$res_uniq[$i]] = 0;
+			
+			}
+			
+			$len_histo = count($histo);
+			
+			$len_res = count($res);
+			
+			// count
+			for ($j = 0; $j < $len_res; $j++) {
+					
+				$histo[$res[$j]] ++;
+					
+			}
+			
+			/*******************************
+			 save: data
+			*******************************/
+			$fpath_dst = "../data/R.143.histo.txt";
+			
+			$f_dst = fopen($fpath_dst, "w");
+			
+			for ($i = 0; $i < $len_histo; $i++) {
+			
+				$data = $histo[$res_uniq[$i]];
+			
+			
+			
+				fwrite($f_dst, ($i+1)."\t$data\n");
+			
+			}
+			
+			fclose($f_dst);
+			
+			/*******************************
+				return
+			*******************************/
+			return $histo;
+			
+		}//get_Histo_stat($d1, $d2)
 		
 	}//class Utils
 	

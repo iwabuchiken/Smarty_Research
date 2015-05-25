@@ -6,6 +6,90 @@ require('../libs/SmartyBC.class.php');	//=>
 require 'utils/utils.php';
 require 'utils/DB.php';
 
+function smarty_Setup($smarty) {
+
+	$smarty->setCaching(true);
+
+	/*
+	 * "../libs"	=> "../" needed
+	* 					to use templates dir under ".../Smarty/libs/templates"
+	*/
+	// 		$smarty->setTemplateDir('../libs/templates');
+	$smarty->setCompileDir('templates_c');
+	
+	$smarty->setCacheDir('../libs/cache');
+	$smarty->setConfigDir('../libs/configs');
+
+	$smarty->setTemplateDir('templates');	//=>
+	// 		$smarty->setTemplateDir('/templates');	//=> no
+	// 		$smarty->setTemplateDir('templates');	//=> no
+	// 		$smarty->setTemplateDir('libs/templates');
+	// 		$smarty->setCompileDir('libs/templates_c');
+	// 		$smarty->setCacheDir('libs/cache');
+	// 		$smarty->setConfigDir('libs/configs');
+
+	/*******************************
+	 cache: clear
+	*******************************/
+	$smarty->clearAllCache();
+
+}
+
+function
+execute_View($smarty, $tpl_name) {
+
+	$smarty->assign('title', CONS::$proj_Name);
+
+	/*******************************
+	 assign: css file, js
+	*******************************/
+	$server_name = Utils::get_ServerName();
+
+	if ($server_name == 'localhost') {
+
+		$css_file_path = "/".CONS::$proj_Name."/main/templates/rsc/css/main.css";	// w
+// 		$css_file_path = CONS::$proj_Name."/main/templates/rsc/css/main.css";	//=> n/w
+		// 			$css_file_path = "/Smarty/main/libs/templates/rsc/css/main.css";
+
+		$js_file_path = "/".CONS::$proj_Name."/main/templates/rsc/js/main.js";	//
+		
+// 		$js_jquery = "http://code.jquery.com/jquery-2.1.4.min.js";	//
+		
+	} else {
+
+		$css_file_path = "/Labs/".CONS::$proj_Name."/main/templates/rsc/css/main.css";
+
+		$js_file_path = "/Labs/".CONS::$proj_Name."/main/templates/rsc/js/main.js";	//
+		
+// 		$js_jquery = "http://code.jquery.com/jquery-2.1.4.min.js";	//
+		
+	}//if ($server_name == 'localhost')
+
+	/*******************************
+		js: commons
+	*******************************/
+	$js_jquery = "http://code.jquery.com/jquery-2.1.4.min.js";	//
+
+	$js_d3 = "http://d3js.org/d3.v3.min.js";
+
+	/*******************************
+		assign
+	*******************************/
+	$smarty->assign('path_css', $css_file_path);
+	
+	$smarty->assign('path_js_jquery', $js_jquery);
+	
+	$smarty->assign('path_js', $js_file_path);
+
+	$smarty->assign('path_js_d3', $js_d3);
+
+
+
+	$smarty->display("templates/$tpl_name");	//=> w
+	// 		$smarty->display("../templates/$tpl_name");	//=> w
+
+}//execute_View($smarty, $tpl_name)
+
 function do_D_2_V_1_0() {
 
 	$d1 = array(1,2,3,4,5,6);
@@ -157,9 +241,96 @@ function do_D_2_V_1_0() {
 		
 }//do_D_2_V_1_0
 
-function execute() {
+function do_D_2_V_1_1() {
+
 	
-	do_D_2_V_1_0();
+	$d1 = array(1,2,3,4,5,6);
+	$d2 = array(1,2,3,4,5,6);
+	
+	$histo = Utils::get_Histo_stat($d1, $d2);
+	
+	printf("[%s : %d] histo =>", 
+					Utils::get_Dirname(__FILE__, CONS::$proj_Name), __LINE__);
+	
+	
+	echo "<br>"; echo "<br>";
+	
+	print_r($histo);
+	
+		
+}//do_D_2_V_1_0
+
+function do_D_2_V_1_1__Expectations() {
+
+	
+	$d1 = array(1,2,3,4,5,6);
+	$d2 = array(1,2,3,4,5,6);
+	
+	$histo = Utils::get_Histo_stat($d1, $d2);
+	
+	printf("[%s : %d] histo =>", 
+					Utils::get_Dirname(__FILE__, CONS::$proj_Name), __LINE__);
+	
+	
+	echo "<br>"; echo "<br>";
+	
+	print_r($histo);
+	
+		
+}//do_D_2_V_1_1__Expectations
+
+function execute() {
+
+	/*******************************
+	 setup: smarty
+	*******************************/
+	$smarty = new SmartyBC();
+	
+	smarty_Setup($smarty);
+
+	
+	/*******************************
+		dispatch
+	*******************************/
+	@$req = $_REQUEST['method'];
+	
+	if ($req == null) {
+
+		do_D_2_V_1_1();
+		
+	} else if ($req = "v-1.1") {
+		
+		do_D_2_V_1_1__Expectations();
+		
+		/*******************************
+		 view
+		*******************************/
+		$tpl_name = "main/main.tpl";
+		
+		execute_View($smarty, $tpl_name);
+		
+		return ;
+		
+// 		printf("[%s : %d] req => v-1.1", 
+// 						Utils::get_Dirname(__FILE__, CONS::$proj_Name), __LINE__);
+		
+// 		echo "<br>"; echo "<br>";
+		
+// 		return ;
+		
+	}
+	
+	
+// 	do_D_2_V_1_1();
+// 	do_D_2_V_1_0();
+
+	/*******************************
+		view
+	*******************************/
+	$tpl_name = "main/main.tpl";
+// 	$tpl_name = "main.tpl";
+	
+	execute_View($smarty, $tpl_name);
 	
 }
 

@@ -14,3 +14,19 @@
 	font-size:	20px;
 	
 }
+
+table.main {
+	
+	/* REF color names http://www.computerhope.com/htmcolor.htm */
+	
+/*	background:	yellow;	*/
+	background:	#98AFC7;
+	
+	border-color:	blue;
+	
+	border-spacing:	;
+	
+	/*
+	border:	1;
+	*/
+}

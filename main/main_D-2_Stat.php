@@ -241,7 +241,7 @@ function do_D_2_V_1_0() {
 		
 }//do_D_2_V_1_0
 
-function do_D_2_V_1_1() {
+function do_D_2_V_1_1($smarty) {
 
 	
 	$d1 = array(1,2,3,4,5,6);
@@ -256,11 +256,15 @@ function do_D_2_V_1_1() {
 	echo "<br>"; echo "<br>";
 	
 	print_r($histo);
-	
+
+	/*******************************
+		assigns
+	*******************************/
+	$smarty->assign("histo", $histo);
 		
 }//do_D_2_V_1_0
 
-function do_D_2_V_1_1__Expectations() {
+function do_D_2_V_1_1__Expectations($smarty) {
 
 	
 	$d1 = array(1,2,3,4,5,6);
@@ -268,13 +272,15 @@ function do_D_2_V_1_1__Expectations() {
 	
 	$histo = Utils::get_Histo_stat($d1, $d2);
 	
-	printf("[%s : %d] histo =>", 
-					Utils::get_Dirname(__FILE__, CONS::$proj_Name), __LINE__);
+	echo json_encode($histo);
+	
+// 	printf("[%s : %d] histo =>", 
+// 					Utils::get_Dirname(__FILE__, CONS::$proj_Name), __LINE__);
 	
 	
-	echo "<br>"; echo "<br>";
+// 	echo "<br>"; echo "<br>";
 	
-	print_r($histo);
+// 	print_r($histo);
 	
 		
 }//do_D_2_V_1_1__Expectations
@@ -296,16 +302,26 @@ function execute() {
 	
 	if ($req == null) {
 
-		do_D_2_V_1_1();
-		
-	} else if ($req = "v-1.1") {
-		
-		do_D_2_V_1_1__Expectations();
-		
+		do_D_2_V_1_1($smarty);
+
 		/*******************************
 		 view
 		*******************************/
 		$tpl_name = "main/main.tpl";
+		// 	$tpl_name = "main.tpl";
+		
+		execute_View($smarty, $tpl_name);
+		
+		return ;
+		
+	} else if ($req = "v-1.1") {
+		
+		do_D_2_V_1_1__Expectations($smarty);
+		
+		/*******************************
+		 view
+		*******************************/
+		$tpl_name = "main/expectations.tpl";
 		
 		execute_View($smarty, $tpl_name);
 		
@@ -324,13 +340,13 @@ function execute() {
 // 	do_D_2_V_1_1();
 // 	do_D_2_V_1_0();
 
-	/*******************************
-		view
-	*******************************/
-	$tpl_name = "main/main.tpl";
-// 	$tpl_name = "main.tpl";
+// 	/*******************************
+// 		view
+// 	*******************************/
+// 	$tpl_name = "main/main.tpl";
+// // 	$tpl_name = "main.tpl";
 	
-	execute_View($smarty, $tpl_name);
+// 	execute_View($smarty, $tpl_name);
 	
 }
 
